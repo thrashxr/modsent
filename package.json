@@ -1,6 +1,6 @@
 {
   "name": "@thrasherflu/modsent",
-  "version": "3.0.0-rc.1",
+  "version": "3.0.0-rc.2",
   "description": "Framework-agnostic text moderation with ready-to-use Discord.js, grammY and Telegraf middleware.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -83,11 +83,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thrashxr/discord-filter.git"
+    "url": "git+https://github.com/thrashxr/modsent.git"
   },
-  "homepage": "https://github.com/thrashxr/discord-filter#readme",
+  "homepage": "https://github.com/thrashxr/modsent#readme",
   "bugs": {
-    "url": "https://github.com/thrashxr/discord-filter/issues"
+    "url": "https://github.com/thrashxr/modsent/issues"
   },
   "engines": {
     "node": ">=18"

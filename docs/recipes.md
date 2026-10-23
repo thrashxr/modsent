@@ -7,7 +7,11 @@ Every example imports the same pure string filter. Keep a single `Filter` instan
 ```ts
 import { Filter } from '@thrasherflu/modsent';
 import { createDiscordModerator } from '@thrasherflu/modsent/discordjs';
+import { Client, GatewayIntentBits } from 'discord.js';
 
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+});
 const filter = new Filter();
 const handler = createDiscordModerator({
   filter,
@@ -15,6 +19,7 @@ const handler = createDiscordModerator({
   onError: (error) => console.error('Failed to moderate message:', error),
 });
 client.on('messageCreate', handler);
+client.login(process.env.DISCORD_TOKEN);
 ```
 
 The `categories` setting is supported by every adapter. Its default is all match types.
@@ -24,7 +29,9 @@ The `categories` setting is supported by every adapter. Its default is all match
 ```ts
 import { Filter } from '@thrasherflu/modsent';
 import { createGrammyMiddleware } from '@thrasherflu/modsent/grammy';
+import { Bot } from 'grammy';
 
+const bot = new Bot(process.env.BOT_TOKEN!);
 bot.use(createGrammyMiddleware({
   filter: new Filter(),
   action: 'none',
@@ -33,13 +40,14 @@ bot.use(createGrammyMiddleware({
     console.log(ctx.from?.id, match.type, match.matchedText);
   },
 }));
+bot.start();
 ```
 
 A moderation callback does not persist data. Store violations, user strikes, bans, and exemptions in your own database.
 
 ## Express HTTP API
 
-Install `npm i @thrasherflu/modsent express`, create `server.mjs`:
+Install `npm i @thrasherflu/modsent@next express`, create `server.mjs`:
 
 ```js
 import express from 'express';
@@ -65,7 +73,7 @@ Run with `node server.mjs`. This endpoint only returns a detection result; it do
 
 ## Socket.IO chat
 
-Install `npm i @thrasherflu/modsent socket.io`, create `server.mjs`:
+Install `npm i @thrasherflu/modsent@next socket.io`, create `server.mjs`:
 
 ```js
 import { Server } from 'socket.io';

@@ -4,13 +4,17 @@
 
 A dependency-free, TypeScript-first content filtering engine for Node.js with ready-to-use Discord.js, grammY, and Telegraf adapters. Built from `discord-filter` v2.
 
-> Release candidate: `3.0.0-rc.1`. This repository branch prepares the scoped package `@thrasherflu/modsent`; it has not yet been published to npm.
+> **Prerelease status:** `3.0.0-rc.1` is published on npm under the `next` tag. This repository is the canonical source. Version `3.0.0-rc.2` is being prepared with the corrected GitHub metadata; it is not yet published.
 
-## Installation after publishing
+## Installation
 
 ```sh
-npm install @thrasherflu/modsent
+npm install @thrasherflu/modsent@next
 ```
+
+The `next` tag selects the current release candidate. Do not treat this prerelease as a stable production version until it is validated in your environment.
+
+[View the published package](https://www.npmjs.com/package/@thrasherflu/modsent) | [Migration guide](docs/migrating-from-discord-filter.md)
 
 ## Standalone Node.js
 
@@ -94,16 +98,9 @@ Adapter options: `filter`, `categories: ['profanity', 'invite', 'link']`, `actio
 
 Use `categories: ['profanity', 'invite']` to allow ordinary links while blocking invites and profanity. `skip` lets you exempt trusted users and chats. `onError` receives callback or deletion failures; if not provided, errors propagate. For performance, instantiate one Filter per shared configuration, rather than constructing it on every message.
 
-## Migration from discord-filter
+## Migrating from discord-filter
 
-1. Replace `discord-filter` imports with `@thrasherflu/modsent`.
-2. Existing `Filter.check`, `Filter.checkAll` and mutation APIs remain.
-3. Existing `ads` and `cleanCheck` aliases are retained but deprecated.
-4. `Filter.words`, `links`, `invites` and `ads` now return snapshots. Use mutation methods rather than editing them directly.
-5. `type: 'ad'` was replaced with `link` or `invite` in v2.
-6. Upgrade to `@thrasherflu/modsent/discordjs`, `@thrasherflu/modsent/grammy`, or `@thrasherflu/modsent/telegraf` for adapter-based moderation.
-
-No changes have been published to the existing `discord-filter` npm package.
+Read the [step-by-step migration guide](docs/migrating-from-discord-filter.md). Existing `discord-filter` users can continue using their installed version; migration is opt-in. The old package has not been deprecated.
 
 ## Development
 

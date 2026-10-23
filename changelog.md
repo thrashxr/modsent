@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.0.0 — initial stable release (prepared, not published)
+
+- Promote the feature-complete Modsent moderation engine and Discord.js, grammY and Telegraf adapters from the verified v3 release candidates.
+- Confirmed 190 automated unit tests and CI pack/type integration checks on Node.js 20 and 22.
+- Documented manual moderation and deletion smoke tests with Discord.js, grammY and Telegraf, including obfuscation handling, wrong-permission behavior, and false-positive checks.
+- Keep the old `discord-filter` npm package independent and available during optional migration.
+- No new filtering features or API changes from `3.0.0-rc.2`.
+
+
 ## 3.0.0-rc.2 — repository migration
 
 - Moved the canonical development repository to [thrashxr/modsent](https://github.com/thrashxr/modsent).

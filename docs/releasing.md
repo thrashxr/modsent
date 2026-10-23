@@ -1,40 +1,48 @@
-# Modsent v3.0.0 release checklist
+# Releasing Modsent
 
-The code in this repository is being prepared for the first **stable** `@thrasherflu/modsent@3.0.0` release. This checklist does not publish anything by itself.
+## Current stable release
 
-## Verified before the stable release
+`@thrasherflu/modsent@3.0.0` was published to npm under the `latest` dist-tag on October 23, 2026. This is the canonical source repository: [thrashxr/modsent](https://github.com/thrashxr/modsent).
 
-- Automated CI: 190 unit tests, TypeScript, lint, ESM/CJS build, packed-package installation, and type-compatibility checks against real Discord.js, grammY and Telegraf declarations on Node.js 20 and 22.
-- Manual smoke tests in dedicated Discord and Telegram test environments (reported October 23, 2026): profanity, obfuscation, ordinary URLs, Discord invites, normal-message false positives, deletion, and Discord/grammY permissions and error callbacks. See [manual live verification](live-validation.md) for coverage and limitations.
-- The old `discord-filter` package is still maintained separately and is not deprecated.
+Verify registry metadata:
 
-## Maintainer release steps
+```sh
+npm view @thrasherflu/modsent@latest version
+npm dist-tag ls @thrasherflu/modsent
+```
 
-1. Use Node.js 22.12+ for development tools (the published library still targets Node.js 18+). Confirm GitHub CI is green for the exact stable commit and review any unresolved dependency/security pull requests separately.
-2. In a fresh checkout of `thrashxr/modsent` at the verified commit:
+The expected current stable version is `3.0.0`. The previous release candidate `3.0.0-rc.2` remains available under the `next` tag unless the maintainer explicitly changes it.
+
+## Verified before v3.0.0
+
+- 190 unit tests, TypeScript checking, lint, ESM/CJS build, packed npm package consumer tests and real Discord.js, grammY and Telegraf type checks.
+- User-operated live smoke tests in isolated Discord/Telegram test environments on October 23, 2026. See [manual live verification](live-validation.md).
+- Dependency-security remediation subsequently passed full `npm audit` with zero findings, including development dependencies, and CI on Node.js 22 and 24.
+- The prior `discord-filter` npm package remains independent and is not deprecated.
+
+## Checklist for the next release
+
+1. Work with Node.js 22.12+ for source development and builds. The published JavaScript library targets Node.js 18+.
+2. Review outstanding dependency/security advisories and confirm all CI jobs are green for the exact intended commit.
+3. Run in a clean checkout:
+
    ```sh
    npm ci
    npm run typecheck
    npm run lint
    npm test
    npm run build
+   npm audit --audit-level=low
    npm pack --dry-run
    ```
-3. Verify `npm pkg get name version` is `@thrasherflu/modsent` / `3.0.0`. Run `npm audit --omit=dev` to check shipped dependencies. Do not run unreviewed `npm audit fix --force`.
-4. Publish the stable release using the npm account authorized for `@thrasherflu`:
-   ```sh
-   npm publish --access public --tag latest
-   ```
-5. Confirm distribution tags and installed entrypoints from the npm registry:
-   ```sh
-   npm dist-tag ls @thrasherflu/modsent
-   npm view @thrasherflu/modsent@latest version
-   ```
-   Expect `latest: 3.0.0`. Keep `next: 3.0.0-rc.2` until a future prerelease replaces it; do not automatically move prerelease tags.
-6. In a fresh consumer project, install `@thrasherflu/modsent@3.0.0` and load `@thrasherflu/modsent`, `/discordjs`, `/grammy` and `/telegraf`. Confirm ESM and CommonJS entrypoints.
-7. After npm propagation and smoke tests, replace the README's prerelease status text with an exact stable published claim and update installation to `npm install @thrasherflu/modsent` in a follow-up commit. Optionally tag the verified stable commit `v3.0.0` and create GitHub release notes.
-8. Leave the `discord-filter` package installable for existing users. Deprecation is a separate decision, not part of publishing `3.0.0`.
 
-## Scope and limitations
+4. Increment `package.json` and `package-lock.json` together; npm versions are immutable once published. Ensure the package tarball includes the expected `dist` artifacts, type declarations, README and license.
+5. For stable versions publish using `npm publish --access public --tag latest`. For prereleases use `npm publish --access public --tag next`. Do not publish the same version twice.
+6. Verify the dist-tag and installation in a fresh consumer project with all four entrypoints: `@thrasherflu/modsent`, `/discordjs`, `/grammy`, and `/telegraf`, for ESM and CommonJS.
+7. Update README, changelog and release notes with confirmed publication details. Consider creating a GitHub release for the corresponding commit.
 
-The core has no runtime npm dependencies. Manual checks cover the main moderation flows but do not exhaustively test all message types, rate-limit behavior, bot deployments, or platform policy changes. Review false positives and permissions in the target community before deploying with deletion enabled.
+Existing `discord-filter` consumers are not required to migrate; deprecation is a separate maintainer decision.
+
+## Limitations
+
+Manual smoke tests do not exhaustively cover large workloads, Telegram permissions across all group types, Discord partial messages or every possible false-positive case. Use staged rollout and review moderation policies for new deployments.

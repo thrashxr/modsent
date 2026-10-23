@@ -27,13 +27,14 @@ jobs:
           pkg.devDependencies['typescript-eslint'] = '^8.0.0';
           pkg.devDependencies['vitest'] = '^5.0.5';
           pkg.devDependencies['vite'] = '^8.3.5';
+          // tsup@8 requires esbuild ^0.27; 0.27.3-0.28.0 have GHSA-g7r4-m6w7-qqqr.
+          // Pin an unaffected compatible patch until tsup supports patched >=0.28.1.
+          pkg.overrides = { ...(pkg.overrides || {}), esbuild: '0.27.2' };
           fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           NODE
           # Old Vitest 2 lock contains incompatible Vite 5 peer resolutions.
           rm -f package-lock.json
           npm install --ignore-scripts --no-audit --no-fund
-          # Fixes low-severity esbuild vulnerability within tsup's compatible ^0.27 range.
-          npm audit fix --package-lock-only --ignore-scripts --no-fund
           npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify all tests and compiled exports
         run: |

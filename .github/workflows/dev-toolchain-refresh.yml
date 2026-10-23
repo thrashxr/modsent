@@ -1,0 +1,38 @@
+name: Refresh development toolchain once
+on:
+  push:
+    branches: [security/modernize-dev-tooling]
+    paths: ['.github/workflows/dev-toolchain-refresh.yml']
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate compatible modern dependency lockfile
+        run: |
+          npm install --save-dev 'vitest@^5.0.5' 'eslint@^10.0.0' '@eslint/js@^10.0.0' 'typescript-eslint@^8.0.0' --ignore-scripts --no-audit --no-fund
+          npm uninstall --save-dev '@typescript-eslint/eslint-plugin' '@typescript-eslint/parser' --ignore-scripts --no-audit --no-fund
+          npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify all tests and compiled exports
+        run: |
+          npm run typecheck
+          npm run lint
+          npm test
+          npm run build
+      - name: Security audit including development dependencies
+        run: npm audit --audit-level=moderate
+      - name: Commit generated dependency metadata to working branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json package-lock.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'chore(deps): upgrade Vitest and ESLint toolchain safely'
+          git push origin HEAD:security/modernize-dev-tooling

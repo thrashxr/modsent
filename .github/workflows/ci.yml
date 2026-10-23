@@ -20,6 +20,9 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - run: npm audit --audit-level=low
+      - name: Benchmark API smoke test
+        run: npm run bench -- -t 'short message'
       - run: node -e "if (!require('./dist/index.cjs').Filter) process.exit(1)"
       - name: Test packed package in a clean app
         run: |

@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 — initial stable release (prepared, not published)
+## 3.0.0 — initial stable release (published October 23, 2026)
 
 - Promote the feature-complete Modsent moderation engine and Discord.js, grammY and Telegraf adapters from the verified v3 release candidates.
 - Confirmed 190 automated unit tests and CI pack/type integration checks on Node.js 20 and 22.

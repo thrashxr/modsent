@@ -10,7 +10,7 @@ The code in this repository is being prepared for the first **stable** `@thrashe
 
 ## Maintainer release steps
 
-1. Confirm GitHub CI is green for the exact stable commit and review any unresolved dependency/security pull requests separately.
+1. Use Node.js 22.12+ for development tools (the published library still targets Node.js 18+). Confirm GitHub CI is green for the exact stable commit and review any unresolved dependency/security pull requests separately.
 2. In a fresh checkout of `thrashxr/modsent` at the verified commit:
    ```sh
    npm ci

@@ -17,8 +17,21 @@ jobs:
           node-version: '22'
       - name: Generate compatible modern dependency lockfile
         run: |
-          npm install --save-dev 'vitest@^5.0.5' 'eslint@^10.0.0' '@eslint/js@^10.0.0' 'typescript-eslint@^8.0.0' --ignore-scripts --no-audit --no-fund
-          npm uninstall --save-dev '@typescript-eslint/eslint-plugin' '@typescript-eslint/parser' --ignore-scripts --no-audit --no-fund
+          node <<'NODE'
+          const fs = require('node:fs');
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          delete pkg.devDependencies['@typescript-eslint/eslint-plugin'];
+          delete pkg.devDependencies['@typescript-eslint/parser'];
+          pkg.devDependencies['eslint'] = '^10.0.0';
+          pkg.devDependencies['@eslint/js'] = '^10.0.0';
+          pkg.devDependencies['typescript-eslint'] = '^8.0.0';
+          pkg.devDependencies['vitest'] = '^5.0.5';
+          pkg.devDependencies['vite'] = '^8.3.5';
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          NODE
+          # Old Vitest 2 lock contains incompatible Vite 5 peer resolutions.
+          rm -f package-lock.json
+          npm install --ignore-scripts --no-audit --no-fund
           npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify all tests and compiled exports
         run: |

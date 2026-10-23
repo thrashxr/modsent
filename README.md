@@ -4,15 +4,15 @@
 
 A dependency-free, TypeScript-first content filtering engine for Node.js with ready-to-use Discord.js, grammY, and Telegraf adapters. Built from `discord-filter` v2.
 
-> **Prerelease status:** `3.0.0-rc.1` is published on npm under the `next` tag. This repository is the canonical source. Version `3.0.0-rc.2` is being prepared with the corrected GitHub metadata; it is not yet published.
+> **Release status:** `3.0.0-rc.2` is publicly available under npm's `next` tag. The stable `3.0.0` release is prepared in this source tree but is not yet published. See the [release checklist](docs/releasing.md) before publishing.
 
 ## Installation
 
 ```sh
-npm install @thrasherflu/modsent@next
+npm install @thrasherflu/modsent@3.0.0-rc.2
 ```
 
-The `next` tag selects the current release candidate. Do not treat this prerelease as a stable production version until it is validated in your environment.
+Until stable `3.0.0` is published, install the verified release candidate explicitly as shown above. After stable publication, use `npm install @thrasherflu/modsent` (which resolves the `latest` dist-tag).
 
 [View the published package](https://www.npmjs.com/package/@thrasherflu/modsent) | [Migration guide](docs/migrating-from-discord-filter.md)
 

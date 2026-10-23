@@ -1,6 +1,6 @@
 {
   "name": "@thrasherflu/modsent",
-  "version": "3.0.0-rc.2",
+  "version": "3.0.0",
   "description": "Framework-agnostic text moderation with ready-to-use Discord.js, grammY and Telegraf middleware.",
   "type": "module",
   "main": "./dist/index.cjs",

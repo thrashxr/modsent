@@ -1,6 +1,13 @@
 # Changelog
 
-## 3.0.0-rc.1 — Modsent migration candidate
+## 3.0.0-rc.2 — repository migration
+
+- Moved the canonical development repository to [thrashxr/modsent](https://github.com/thrashxr/modsent).
+- Updated npm package repository, homepage and issue tracker metadata.
+- Updated README with the existing prerelease install command and a dedicated migration guide.
+- No behavioral changes to the filtering engine or framework adapters.
+
+## 3.0.0-rc.1 — initial Modsent release candidate
 
 ### Added
 - Framework-independent moderation adapters for Discord.js, grammY and Telegraf.
@@ -17,7 +24,7 @@
 - Accessors `words`, `links`, `invites` and `ads` return snapshots. Use mutation APIs to change filters.
 
 ### Notes
-- Release candidate only. No publication, deprecation or migration of the existing npm package is implied.
+- Published on npm as `@thrasherflu/modsent@3.0.0-rc.1` under `next`. No change or deprecation of the existing `discord-filter` npm package is implied.
 - Moderation adapters are intentionally small and do not implement persistent strikes, permissions, bans or audit logging.
 
 ---

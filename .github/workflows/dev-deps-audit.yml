@@ -1,0 +1,39 @@
+name: Dev dependency audit
+on:
+  push:
+    branches: [security/remediate-dev-deps]
+    paths:
+      - '.github/workflows/dev-deps-audit.yml'
+      - 'package.json'
+      - 'package-lock.json'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install development dependencies
+        run: npm ci --ignore-scripts --no-fund
+      - name: List affected packages and fixes
+        shell: bash
+        run: |
+          npm audit --json > "$RUNNER_TEMP/npm-audit.json" || true
+          node - "$RUNNER_TEMP/npm-audit.json" <<'NODE'
+          const fs = require('node:fs');
+          const f = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          console.log('AUDIT_COUNTS', JSON.stringify(f.metadata?.vulnerabilities ?? {}));
+          for (const [name, v] of Object.entries(f.vulnerabilities ?? {})) {
+            console.log('VULN', JSON.stringify({
+              name,
+              severity: v.severity,
+              isDirect: v.isDirect,
+              range: v.range,
+              fixAvailable: v.fixAvailable,
+              via: v.via?.map(x => typeof x === 'string' ? x : { name: x.name, title: x.title, range: x.range })
+            }));
+          }
+          NODE

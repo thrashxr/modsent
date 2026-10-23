@@ -32,6 +32,8 @@ jobs:
           # Old Vitest 2 lock contains incompatible Vite 5 peer resolutions.
           rm -f package-lock.json
           npm install --ignore-scripts --no-audit --no-fund
+          # Fixes low-severity esbuild vulnerability within tsup's compatible ^0.27 range.
+          npm audit fix --package-lock-only --ignore-scripts --no-fund
           npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify all tests and compiled exports
         run: |
@@ -39,8 +41,9 @@ jobs:
           npm run lint
           npm test
           npm run build
+          npm run bench -- -t 'short message'
       - name: Security audit including development dependencies
-        run: npm audit --audit-level=moderate
+        run: npm audit --audit-level=low
       - name: Commit generated dependency metadata to working branch
         run: |
           git config user.name 'github-actions[bot]'

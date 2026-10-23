@@ -104,6 +104,8 @@ Read the [step-by-step migration guide](docs/migrating-from-discord-filter.md). 
 
 ## Development
 
+Building, linting, benchmarking, and testing from source require Node.js 22.12+ with Vitest 5. The published library targets Node.js 18+ and has zero runtime dependencies.
+
 CI additionally compiles integration examples against real Discord.js, grammY and Telegraf declarations and installs the npm tarball in a clean directory to validate package exports.
 
 ```sh

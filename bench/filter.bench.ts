@@ -1,4 +1,4 @@
-import { bench, describe } from 'vitest';
+import { describe, test } from 'vitest';
 import { Filter } from '../src/index';
 
 function makeRules(n: number): string[] {
@@ -19,21 +19,39 @@ const d1k = new Filter({ words: makeRules(1_000) });
 const d10k = new Filter({ words: makeRules(10_000) });
 
 describe('check() by message size (defaults only)', () => {
-  bench('short message', () => void dInit.check(SHORT));
-  bench('normal discord message', () => void dInit.check(NORMAL));
-  bench('large message (~40x)', () => void dInit.check(LARGE));
-  bench('evasive message', () => void dInit.check(EVASIVE));
+  test('short message', async ({ bench }) => {
+    await bench('short message', () => void dInit.check(SHORT)).run();
+  });
+  test('normal discord message', async ({ bench }) => {
+    await bench('normal discord message', () => void dInit.check(NORMAL)).run();
+  });
+  test('large message (~40x)', async ({ bench }) => {
+    await bench('large message (~40x)', () => void dInit.check(LARGE)).run();
+  });
+  test('evasive message', async ({ bench }) => {
+    await bench('evasive message', () => void dInit.check(EVASIVE)).run();
+  });
 });
 
 describe('check() by rule count (normal message)', () => {
-  bench('100 rules', () => void d100.check(NORMAL));
-  bench('1,000 rules', () => void d1k.check(NORMAL));
-  bench('10,000 rules', () => void d10k.check(NORMAL));
+  test('100 rules', async ({ bench }) => {
+    await bench('100 rules', () => void d100.check(NORMAL)).run();
+  });
+  test('1,000 rules', async ({ bench }) => {
+    await bench('1,000 rules', () => void d1k.check(NORMAL)).run();
+  });
+  test('10,000 rules', async ({ bench }) => {
+    await bench('10,000 rules', () => void d10k.check(NORMAL)).run();
+  });
 });
 
 describe('compile cost (constructor)', () => {
   const r1k = makeRules(1_000);
   const r10k = makeRules(10_000);
-  bench('compile 1,000 rules', () => void new Filter({ words: r1k }));
-  bench('compile 10,000 rules', () => void new Filter({ words: r10k }));
+  test('compile 1,000 rules', async ({ bench }) => {
+    await bench('compile 1,000 rules', () => void new Filter({ words: r1k })).run();
+  });
+  test('compile 10,000 rules', async ({ bench }) => {
+    await bench('compile 10,000 rules', () => void new Filter({ words: r10k })).run();
+  });
 });

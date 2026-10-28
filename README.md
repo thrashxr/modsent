@@ -1,8 +1,13 @@
 # Modsent
 
-**One moderation engine. Every platform.**
+[![npm version](https://img.shields.io/npm/v/%40thrasherflu%2Fmodsent)](https://www.npmjs.com/package/@thrasherflu/modsent)
+[![npm downloads](https://img.shields.io/npm/dm/%40thrasherflu%2Fmodsent)](https://www.npmjs.com/package/@thrasherflu/modsent)
+[![CI](https://github.com/thrashxr/modsent/actions/workflows/ci.yml/badge.svg)](https://github.com/thrashxr/modsent/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/%40thrasherflu%2Fmodsent)](LICENSE)
 
-A dependency-free, TypeScript-first content filtering engine for Node.js with ready-to-use Discord.js, grammY, and Telegraf adapters. Built from `discord-filter` v2.
+Dependency-free Turkish/English profanity, link and invite filtering for Node.js. Modsent detects separator, repetition, leetspeak and Unicode homoglyph bypasses while preserving common false-positive cases.
+
+Use the core with any application, or add the ready-to-use Discord.js, grammY and Telegraf adapters. The package has zero runtime dependencies and ships ESM, CommonJS and TypeScript declarations.
 
 > **Stable release:** `@thrasherflu/modsent@3.0.0` is published on npm under the `latest` tag. The `discord-filter` package remains available separately for existing users.
 
@@ -21,10 +26,12 @@ This installs the current stable release through npm's `latest` tag.
 ```ts
 import { Filter } from '@thrasherflu/modsent';
 
-const filter = new Filter({ languages: ['tr'], words: ['myblockedword'] });
-console.log(filter.check('myblockedword'));
-console.log(filter.checkAll('See discord.gg/example and example.com'));
-console.log(filter.censor('This is s.a.l.a.k'));
+const filter = new Filter();
+
+console.log(filter.check('s.a.l.a.k').type);          // profanity
+console.log(filter.check('discord,gg/example').type); // invite
+console.log(filter.check('şikayet').match);           // false
+console.log(filter.censor('Bu s.a.l.a.k bir mesaj')); // Bu ********* bir mesaj
 ```
 
 The core only analyzes strings; it does not access bot APIs. Categories: `profanity`, `link`, `invite`. A default TR/EN dictionary is loaded unless disabled with `useDefaults: false` or scoped via `languages`.
@@ -88,7 +95,7 @@ bot.launch();
 
 ## More copy-paste recipes
 
-See [Express, Socket.IO, detection-only mode, category policies and per-chat configuration](docs/recipes.md).
+Run the [feature demo](examples/demo.mjs) after building the package, or see [Express, Socket.IO, detection-only mode, category policies and per-chat configuration](docs/recipes.md).
 
 ## Options and actions
 
@@ -97,6 +104,20 @@ Core constructor options: `words`, `links`, `invites`, `allowlist`, `useDefaults
 Adapter options: `filter`, `categories: ['profanity', 'invite', 'link']`, `action: 'delete' | 'none'`, `skip`, `onMatch`, `onError`, and `stopOnMatch`. Discord also supports `includeDMs`. These intentionally do not implement bans, strikes, role checks, or persistent moderation state. Handle those in your application.
 
 Use `categories: ['profanity', 'invite']` to allow ordinary links while blocking invites and profanity. `skip` lets you exempt trusted users and chats. `onError` receives callback or deletion failures; if not provided, errors propagate. For performance, instantiate one Filter per shared configuration, rather than constructing it on every message.
+
+## Comparison
+
+This table reflects features stated in each project's official documentation, not benchmark results.
+
+| Option | Turkish | Normalization | Bypass detection | Links / invites | Integration |
+| --- | --- | --- | --- | --- | --- |
+| **Modsent** | Built in | Repetition, separators, leetspeak, homoglyphs | Built in | Built in | Discord.js, grammY, Telegraf adapters; standalone core |
+| [`bad-words`](https://github.com/nyvorin/badwords/blob/main/README.md) | Not verified | Not verified | Limited documented `ash0le` example | Not verified | Not verified |
+| [`leo-profanity`](https://github.com/jojoee/leo-profanity/blob/master/README.md) | Not verified as built in | Lowercasing and period/comma separation | Not verified as implemented | Not verified | Not verified |
+| [Discord AutoMod](https://docs.discord.com/developers/resources/auto-moderation) | Custom keywords support any language; built-in lists are English-only | Case-insensitive keywords and Unicode regex | Custom regex rules | Custom link rules and invite-spam detection | Discord platform and HTTP API |
+| [`terlik.js`](https://github.com/badursun/terlik.js/blob/main/README.md) | Built in and default | Documented multi-stage pipeline | Documented leet, separators, repetition, confusables and suffix forms | Not verified | General JavaScript runtimes and documented web-framework examples |
+
+`Not verified` means the capability was not stated in the linked official source; it does not mean the capability is unsupported. Discord's [regex guide](https://support.discord.com/hc/en-us/articles/10069840290711-Filter-Messages-Using-Regular-Expressions-Regex) documents bypass-oriented custom patterns.
 
 ## Migrating from discord-filter
 

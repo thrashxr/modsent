@@ -18,7 +18,7 @@ The expected current stable version is `3.0.0`. The previous release candidate `
 - 190 unit tests, TypeScript checking, lint, ESM/CJS build, packed npm package consumer tests and real Discord.js, grammY and Telegraf type checks.
 - User-operated live smoke tests in isolated Discord/Telegram test environments on October 23, 2026. See [manual live verification](live-validation.md).
 - Dependency-security remediation subsequently passed full `npm audit` with zero findings, including development dependencies, and CI on Node.js 22 and 24.
-- The prior `discord-filter` npm package remains independent and is not deprecated.
+- At the time of the v3.0.0 release, the prior `discord-filter` npm package remained independent and was not deprecated.
 
 ## Checklist for the next release
 
@@ -41,7 +41,7 @@ The expected current stable version is `3.0.0`. The previous release candidate `
 6. Verify the dist-tag and installation in a fresh consumer project with all four entrypoints: `@thrasherflu/modsent`, `/discordjs`, `/grammy`, and `/telegraf`, for ESM and CommonJS.
 7. Update README, changelog and release notes with confirmed publication details. Consider creating a GitHub release for the corresponding commit.
 
-Existing `discord-filter` consumers are not required to migrate; deprecation is a separate maintainer decision.
+The `discord-filter` npm package is now deprecated in favor of Modsent. Existing installations can still be used; migration is optional.
 
 ## npm provenance
 

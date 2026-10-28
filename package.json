@@ -54,6 +54,7 @@
     "dist",
     "README.md",
     "docs",
+    "examples",
     "changelog.md",
     "LICENSE"
   ],

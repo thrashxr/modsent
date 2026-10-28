@@ -9,8 +9,6 @@ Dependency-free Turkish/English profanity, link and invite filtering for Node.js
 
 Use the core with any application, or add the ready-to-use Discord.js, grammY and Telegraf adapters. The package has zero runtime dependencies and ships ESM, CommonJS and TypeScript declarations.
 
-> **Stable release:** `@thrasherflu/modsent@3.0.0` is published on npm under the `latest` tag. The `discord-filter` package remains available separately for existing users.
-
 ## Installation
 
 ```sh

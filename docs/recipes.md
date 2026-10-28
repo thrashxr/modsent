@@ -2,6 +2,8 @@
 
 Every example imports the same pure string filter. Keep a single `Filter` instance per rule set rather than allocating one per incoming message.
 
+Install any framework used by a recipe alongside Modsent; for example, `npm install @thrasherflu/modsent discord.js`, `npm install @thrasherflu/modsent grammy`, or `npm install @thrasherflu/modsent telegraf`.
+
 ## Allow links but block Discord invites and profanity
 
 ```ts
@@ -36,8 +38,8 @@ bot.use(createGrammyMiddleware({
   filter: new Filter(),
   action: 'none',
   stopOnMatch: false,
-  onMatch: (ctx, match) => {
-    console.log(ctx.from?.id, match.type, match.matchedText);
+  onMatch: (_ctx, match) => {
+    console.log(match.type, match.matchedText);
   },
 }));
 bot.start();
@@ -47,7 +49,7 @@ A moderation callback does not persist data. Store violations, user strikes, ban
 
 ## Express HTTP API
 
-Install `npm i @thrasherflu/modsent@next express`, create `server.mjs`:
+Install `npm install @thrasherflu/modsent express`, then create `server.mjs`:
 
 ```js
 import express from 'express';
@@ -73,7 +75,7 @@ Run with `node server.mjs`. This endpoint only returns a detection result; it do
 
 ## Socket.IO chat
 
-Install `npm i @thrasherflu/modsent@next socket.io`, create `server.mjs`:
+Install `npm install @thrasherflu/modsent socket.io`, then create `server.mjs`:
 
 ```js
 import { Server } from 'socket.io';

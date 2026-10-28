@@ -12,7 +12,7 @@ A dependency-free, TypeScript-first content filtering engine for Node.js with re
 npm install @thrasherflu/modsent
 ```
 
-This installs the current stable release through npm's `latest` tag. To install the previous release candidate explicitly, use `npm install @thrasherflu/modsent@3.0.0-rc.2`.
+This installs the current stable release through npm's `latest` tag.
 
 [View the published package](https://www.npmjs.com/package/@thrasherflu/modsent) | [Migration guide](docs/migrating-from-discord-filter.md)
 
@@ -21,7 +21,7 @@ This installs the current stable release through npm's `latest` tag. To install 
 ```ts
 import { Filter } from '@thrasherflu/modsent';
 
-const filter = new Filter({ languages: ['en'], words: ['myblockedword'] });
+const filter = new Filter({ languages: ['tr'], words: ['myblockedword'] });
 console.log(filter.check('myblockedword'));
 console.log(filter.checkAll('See discord.gg/example and example.com'));
 console.log(filter.censor('This is s.a.l.a.k'));
@@ -31,7 +31,7 @@ The core only analyzes strings; it does not access bot APIs. Categories: `profan
 
 ## Discord.js v14
 
-Requires the Gateway Intent `MessageContent` and suitable message deletion permissions. Ignore messages the bot cannot moderate.
+Install Discord.js separately with `npm install discord.js`. The bot also requires the `MessageContent` Gateway Intent and suitable message deletion permissions.
 
 ```ts
 import { Client, GatewayIntentBits } from 'discord.js';
@@ -54,7 +54,7 @@ client.login(process.env.DISCORD_TOKEN);
 
 ## grammY
 
-Text messages and media captions are checked. The bot needs deletion privileges in the target chat. Use `action: 'none'` for detection-only mode.
+Install grammY separately with `npm install grammy`. Text messages and media captions are checked. The bot needs deletion privileges in the target chat. Use `action: 'none'` for detection-only mode.
 
 ```ts
 import { Bot } from 'grammy';
@@ -71,7 +71,7 @@ bot.start();
 
 ## Telegraf
 
-Text messages and media captions are checked. The bot must have sufficient permissions in its target chat.
+Install Telegraf separately with `npm install telegraf`. Text messages and media captions are checked. The bot must have sufficient permissions in its target chat.
 
 ```ts
 import { Telegraf } from 'telegraf';

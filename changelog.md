@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.1 — documentation and release preparation
+
+- Updated installation and migration guidance for the stable npm release, removing obsolete prerelease directions.
+- Corrected and clarified the README and framework recipes so their imports, options and language configuration match the published API.
+- Updated package version metadata to `3.0.1`; the moderation engine, adapters and public API are unchanged.
+
 ## 3.0.0 — initial stable release (published October 23, 2026)
 
 - Promote the feature-complete Modsent moderation engine and Discord.js, grammY and Telegraf adapters from the verified v3 release candidates.

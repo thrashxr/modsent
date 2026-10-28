@@ -43,6 +43,10 @@ The expected current stable version is `3.0.0`. The previous release candidate `
 
 Existing `discord-filter` consumers are not required to migrate; deprecation is a separate maintainer decision.
 
+## npm provenance
+
+The current GitHub Actions workflow verifies builds but does not publish packages. npm provenance is therefore not enabled for v3.0.1: provenance requires publishing from a supported CI provider, while the existing release process publishes manually. If publishing later moves into GitHub Actions with npm trusted publishing or an appropriately scoped token, use `npm publish --provenance --access public --tag latest`. That workflow and authentication change are outside this release's scope.
+
 ## Limitations
 
 Manual smoke tests do not exhaustively cover large workloads, Telegram permissions across all group types, Discord partial messages or every possible false-positive case. Use staged rollout and review moderation policies for new deployments.

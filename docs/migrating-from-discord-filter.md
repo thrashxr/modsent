@@ -1,6 +1,6 @@
 # Migrating from discord-filter to Modsent
 
-The existing `discord-filter` package remains available and functional. Modsent is a **separate npm package**, not an in-place rename, and migration is optional.
+The `discord-filter` npm package is deprecated in favor of Modsent, but existing installations remain usable. Modsent is a **separate npm package**, not an in-place rename, and migration is optional.
 
 ## 1. Install Modsent
 

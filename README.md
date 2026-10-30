@@ -119,7 +119,7 @@ This table reflects features stated in each project's official documentation, no
 
 ## Migrating from discord-filter
 
-Read the [step-by-step migration guide](docs/migrating-from-discord-filter.md). Existing `discord-filter` users can continue using their installed version; migration is opt-in. The old package has not been deprecated.
+Read the [step-by-step migration guide](docs/migrating-from-discord-filter.md). The `discord-filter` npm package is deprecated in favor of Modsent. Existing installations can still be used; migration is optional.
 
 ## Development
 

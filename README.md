@@ -105,17 +105,9 @@ Use `categories: ['profanity', 'invite']` to allow ordinary links while blocking
 
 ## Comparison
 
-This table reflects features stated in each project's official documentation, not benchmark results.
+Modsent and [`terlik.js`](https://github.com/badursun/terlik.js/blob/main/README.md) both include Turkish dictionaries and normalization for common evasions. Terlik.js documents a Turkish suffix engine; Modsent does **not** analyze suffixes. Modsent matches longer rules at the start of a token, so some suffixed forms match, but short roots require a boundary on both sides. See the [reproducible 15-message comparison](docs/turkish-comparison.md), including two suffix forms Modsent misses.
 
-| Option | Turkish | Normalization | Bypass detection | Links / invites | Integration |
-| --- | --- | --- | --- | --- | --- |
-| **Modsent** | Built in | Repetition, separators, leetspeak, homoglyphs | Built in | Built in | Discord.js, grammY, Telegraf adapters; standalone core |
-| [`bad-words`](https://github.com/nyvorin/badwords/blob/main/README.md) | Not verified | Not verified | Limited documented `ash0le` example | Not verified | Not verified |
-| [`leo-profanity`](https://github.com/jojoee/leo-profanity/blob/master/README.md) | Not verified as built in | Lowercasing and period/comma separation | Not verified as implemented | Not verified | Not verified |
-| [Discord AutoMod](https://docs.discord.com/developers/resources/auto-moderation) | Custom keywords support any language; built-in lists are English-only | Case-insensitive keywords and Unicode regex | Custom regex rules | Custom link rules and invite-spam detection | Discord platform and HTTP API |
-| [`terlik.js`](https://github.com/badursun/terlik.js/blob/main/README.md) | Built in and default | Documented multi-stage pipeline | Documented leet, separators, repetition, confusables and suffix forms | Not verified | General JavaScript runtimes and documented web-framework examples |
-
-`Not verified` means the capability was not stated in the linked official source; it does not mean the capability is unsupported. Discord's [regex guide](https://support.discord.com/hc/en-us/articles/10069840290711-Filter-Messages-Using-Regular-Expressions-Regex) documents bypass-oriented custom patterns.
+Discord [AutoMod](https://support.discord.com/hc/en-us/articles/4421269296535-AutoMod-FAQ) supports custom keywords in any language, while its Commonly Flagged Words lists and Spam Content filter are currently English-only. Its [custom regex rules](https://support.discord.com/hc/en-us/articles/10069840290711-Filter-Messages-Using-Regular-Expressions-Regex) can address evasions. Modsent provides built-in Turkish/English rules and normalization without maintaining those patterns yourself, and the same filter can be used with Telegram adapters as well as Discord.
 
 ## Migrating from discord-filter
 
